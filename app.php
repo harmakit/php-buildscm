@@ -283,11 +283,11 @@ function runSCM(
 {
     print (PHP_EOL . PHP_EOL);
     if ($T === 'conjunction') {
-        $P = $negative;
-        $N = $positive;
-    } else {
         $P = $positive;
         $N = $negative;
+    } else {
+        $P = $negative;
+        $N = $positive;
     }
 
     $H = $characteristics;
