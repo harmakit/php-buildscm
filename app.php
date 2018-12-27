@@ -11,17 +11,18 @@ include_once 'Observation.php';
 include_once 'CharacteristicFabric.php';
 include_once 'ObservationFabric.php';
 
-function printMenu($T) {
+function printMenu($T)
+{
     print(
-        'Menu:'  . PHP_EOL . PHP_EOL .
-        't - Set machine type (T)'  . PHP_EOL .
-        'fc - Set features count'  . PHP_EOL .
-        'p - Set penalty value (p)'  . PHP_EOL .
-        's - Set stopping point value (s)'  . PHP_EOL .
-        'pos - Set positive observations ('  . ($T === 'conjunction' ? 'N' : 'P') . ')' . PHP_EOL .
-        'neg - Set negative observations ('  . ($T === 'conjunction' ? 'P' : 'N') . ')' . PHP_EOL .
-        'h - Set characteristics (H)'  . PHP_EOL .
-        'run - Run algorithm'  . PHP_EOL .
+        'Menu:' . PHP_EOL . PHP_EOL .
+        't - Set machine type (T)' . PHP_EOL .
+        'fc - Set features count' . PHP_EOL .
+        'p - Set penalty value (p)' . PHP_EOL .
+        's - Set stopping point value (s)' . PHP_EOL .
+        'pos - Set positive observations (' . ($T === 'conjunction' ? 'N' : 'P') . ')' . PHP_EOL .
+        'neg - Set negative observations (' . ($T === 'conjunction' ? 'P' : 'N') . ')' . PHP_EOL .
+        'h - Set characteristics (H)' . PHP_EOL .
+        'run - Run algorithm' . PHP_EOL .
         'q - Exit' . PHP_EOL
     );
     for ($i = 0; $i < 20; $i++) {
@@ -38,7 +39,8 @@ function printParameters(
     $p,
     $s,
     $characteristics
-) {
+)
+{
     if (empty($positive)) {
         $positiveObservations = '[ ]';
     } else {
@@ -77,18 +79,18 @@ function printParameters(
 
 
     print(
-        'T -> '  . $T . PHP_EOL .
-        'features count -> '  . ($featuresCount ?? 'null') . PHP_EOL .
-        'p -> '  . $p . PHP_EOL .
-        's -> ' . ($s ?? 'null')  . PHP_EOL .
-        'positive observations  -> ' . $positiveObservations  . PHP_EOL .
-        'negative observations  -> ' . $negativeObservations  . PHP_EOL .
-        'characteristics  -> ' . $H  . PHP_EOL
+        'T -> ' . $T . PHP_EOL .
+        'features count -> ' . ($featuresCount ?? 'null') . PHP_EOL .
+        'p -> ' . $p . PHP_EOL .
+        's -> ' . ($s ?? 'null') . PHP_EOL .
+        'positive observations  -> ' . $positiveObservations . PHP_EOL .
+        'negative observations  -> ' . $negativeObservations . PHP_EOL .
+        'characteristics  -> ' . $H . PHP_EOL
     );
 }
 
 system('clear');
-print('BuildSCM'  . PHP_EOL . PHP_EOL);
+print('BuildSCM' . PHP_EOL . PHP_EOL);
 $T = 'disjunction';
 $featuresCount = null;
 $p = 1;
@@ -115,13 +117,13 @@ while (true) {
             system('clear');
             break;
         case 'fc':
-            $featuresCount = (int) readline(PHP_EOL . 'Enter value: ');
+            $featuresCount = (int)readline(PHP_EOL . 'Enter value: ');
             $observationFabric->setParametersCount($featuresCount);
             $characteristicsFabric->setParametersCount($featuresCount);
             system('clear');
             break;
         case 'p':
-            $p = (double) readline(PHP_EOL . 'Enter value: ');
+            $p = (double)readline(PHP_EOL . 'Enter value: ');
             system('clear');
             break;
         case 's':
@@ -129,14 +131,14 @@ while (true) {
             if ($s === 'null') {
                 $s = null;
             } else {
-                $s = (int) $s;
+                $s = (int)$s;
             }
             system('clear');
             break;
         case 'pos':
             system('clear');
             if (null === $featuresCount || 0 === $featuresCount) {
-                $featuresCount = (int) readline('Please set features count: ');
+                $featuresCount = (int)readline('Please set features count: ');
                 print(PHP_EOL);
                 if ($featuresCount === 0) {
                     break;
@@ -169,7 +171,7 @@ while (true) {
         case 'neg':
             system('clear');
             if (null === $featuresCount || 0 === $featuresCount) {
-                $featuresCount = (int) readline('Please set features count: ');
+                $featuresCount = (int)readline('Please set features count: ');
                 print(PHP_EOL);
                 if ($featuresCount === 0) {
                     break;
@@ -202,7 +204,7 @@ while (true) {
         case 'h':
             system('clear');
             if (null === $featuresCount || 0 === $featuresCount) {
-                $featuresCount = (int) readline('Please set features count: ');
+                $featuresCount = (int)readline('Please set features count: ');
                 print(PHP_EOL);
                 if ($featuresCount === 0) {
                     break;
@@ -342,7 +344,7 @@ function runSCM(
         foreach ($Q as $i => $Qi) {
             foreach ($Qi as $j => $Qi_obs) {
                 foreach ($Q[$kKey] as $Qk_index => $Qk) {
-                    if ($obs === $Qk) {
+                    if ($Qi_obs === $Qk) {
                         array_splice($Q[$i], $j, 1);
                     }
                 }
@@ -352,7 +354,7 @@ function runSCM(
         foreach ($R as $i => $Ri) {
             foreach ($Ri as $j => $Ri_obs) {
                 foreach ($R[$kKey] as $Rk_index => $Rk) {
-                    if ($obs === $Rk) {
+                    if ($Ri_obs === $Rk) {
                         array_splice($R[$i], $j, 1);
                     }
                 }
@@ -367,7 +369,7 @@ function runSCM(
             if (count($N) !== 0) {
                 print('(Early stopping)' . PHP_EOL);
             }
-            print('Here they are:' . PHP_EOL );
+            print('Here they are:' . PHP_EOL);
             foreach ($Hx as $i => $char) {
                 print('characteristic[' . $i . ']  ->  {' . implode(' , ', $char->getCharacteristicsValues()) . ' }' . PHP_EOL);
             }
@@ -377,7 +379,8 @@ function runSCM(
     }
 }
 
-function featuresViolation($array, $featuresCount) {
+function featuresViolation($array, $featuresCount)
+{
     foreach ($array as $item) {
         if ($item instanceof Observation) {
             $values = $item->getObservationValues();
